@@ -1,0 +1,37 @@
+{
+  "name": "independence",
+  "version": "0.0.1",
+  "description": "Dependency injection helper",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -t 100s",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- -t 10s"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xarvh/independence.git"
+  },
+  "keywords": [
+    "require",
+    "dependency injection",
+    "test"
+  ],
+  "author": {
+    "name": "Francesco Orsenigo",
+    "email": "francesco.orsenigo@gmail.com",
+    "url": "http://github.com/xarvh"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "should": "~2.0.2",
+    "mocha": "~1.13.0",
+    "istanbul": "~0.1.44"
+  },
+  "dependencies": {
+  },
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/xarvh/independence/issues"
+  },
+  "homepage": "https://github.com/xarvh/independence"
+}
