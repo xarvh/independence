@@ -2,6 +2,7 @@ Independence
 ============
 
 Module dependency injection for easy and fast mocking.
+
 Enables a module to create clones of itself that have their dependencies mocked.
 
 
@@ -54,15 +55,15 @@ monkey = require './monkey'
 testMonkey = monkey.dependingOn
   moment: -> format: -> 'Yaaap!'
 
-# Will output `fling Yaaap!`
-testMonkey.fling()
+testMonkey.fling() # Will output `fling Yaaap!`
+testMonkey.swing() # Will work as normal
 
 
 # Provide only moment and leave all other dependenice undefined:
 pureMonkey = monkey.dependingOnlyOn
-  moment: -> format: -> 'Yaaap!'
+  moment: -> format: -> 'Yip!'
 
-# Will complain that `_` is undefined
-testMonkey.fling()
+pureMonkey.fling() # Will output `fling Yip!`
+pureMonkey.swing() # Will fail because `_` is undefined
 ```
 
