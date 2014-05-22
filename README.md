@@ -43,8 +43,8 @@ This works as normal:
 ```coffee
 monkey = require './monkey'
 
-monkey.fling()
-monkey.swing()
+monkey.fling() # Will output `fling 2014-05-23`
+monkey.swing() # Will output `swing 2`
 ```
 
 
@@ -68,4 +68,11 @@ pureMonkey = monkey.dependingOnlyOn
 pureMonkey.fling() # Will output `fling Yip!`
 pureMonkey.swing() # Will fail because `_` is undefined
 ```
+
+
+TODO
+----
+
+* Add unit tests against browserify
+* Add support for relative paths
 
