@@ -1,8 +1,4 @@
 
-getNameFromDependency = (dependency) ->
-  return dependency.match?(/[^/]+$/)?[0] or throw new Error 'Invalid module name'
-
-
 dependDefault = (name, dependency) ->
   dependency ?= name
   return if typeof dependency is 'string' then require dependency else dependency
@@ -25,4 +21,8 @@ module.exports = independence = (moduleFactory) ->
   mod.dependingOn = (mocks) -> moduleFactory dependOnFactory mocks
   mod.dependingOnlyOn = (mocks) -> moduleFactory dependOnlyOnFactory mocks
   return mod
+
+
+module.exports.getNameFromDependency = getNameFromDependency = (dependency) ->
+  return dependency?.split?('/').pop().split('.')[0] or throw new Error 'Invalid module name'
 
