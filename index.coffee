@@ -1,24 +1,31 @@
 
-dependDefault = (name, dependency) ->
-  dependency ?= name
-  return if typeof dependency is 'string' then require dependency else dependency
+path = try require 'path' catch e then join: (args...) -> args.join ''
+
+dependDefaultFactory = (basePath) ->
+  return dependDefault = (name, dependency) ->
+    dependency ?= name
+    if typeof dependency isnt 'string' then return dependency
+
+    if '/' in dependency then dependency = path.join basePath..., dependency
+    return require dependency
 
 
-dependOnlyOnFactory = (mocks) ->
+dependOnlyOnFactory = (mocks = {}) ->
   return dependOnlyOn = (name, dependency) ->
     if !dependency then name = getNameFromDependency dependency = name
     return mocks[name]
 
 
-dependOnFactory = (mocks) ->
+dependOnFactory = (mocks = {}, dependDefault) ->
   return dependOn = (name, dependency) ->
     if !dependency then name = getNameFromDependency dependency = name
     return mocks[name] or dependDefault name, dependency
 
 
-module.exports = independence = (moduleFactory) ->
+module.exports = independence = (basePath..., moduleFactory) ->
+  dependDefault = dependDefaultFactory basePath
   mod = moduleFactory dependDefault
-  mod.dependingOn = (mocks) -> moduleFactory dependOnFactory mocks
+  mod.dependingOn = (mocks) -> moduleFactory dependOnFactory mocks, dependDefault
   mod.dependingOnlyOn = (mocks) -> moduleFactory dependOnlyOnFactory mocks
   return mod
 

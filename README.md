@@ -13,7 +13,7 @@ When writing the module
 ```coffee
 # monkey.coffee
 
-module.exports = require('independence') (depend) ->
+module.exports = require('independence') __dirname, (depend) ->
 
   # Implicit require
   async = depend 'async'
@@ -74,5 +74,4 @@ TODO
 ----
 
 * Add unit tests against browserify
-* Add support for relative paths
 
