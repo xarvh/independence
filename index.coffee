@@ -22,12 +22,19 @@ dependOnFactory = (mocks = {}, dependDefault) ->
     return mocks[name] or dependDefault name, dependency
 
 
-module.exports = independence = (basePath..., moduleFactory) ->
+module.exports = independence = (basePath..., moduleInjector) ->
+
+  makeModule = (depend) ->
+    modu1e = exports: {}
+    moduleInjector depend, modu1e
+    return modu1e.exports
+
   dependDefault = dependDefaultFactory basePath
-  mod = moduleFactory dependDefault
-  mod.dependingOn = (mocks) -> moduleFactory dependOnFactory mocks, dependDefault
-  mod.dependingOnlyOn = (mocks) -> moduleFactory dependOnlyOnFactory mocks
-  return mod
+  exportz = makeModule dependDefault
+  exportz.dependingOn = (mocks) -> makeModule dependOnFactory mocks, dependDefault
+  exportz.dependingOnlyOn = (mocks) -> makeModule dependOnlyOnFactory mocks
+
+  return exportz
 
 
 module.exports.getNameFromDependency = getNameFromDependency = (dependency) ->

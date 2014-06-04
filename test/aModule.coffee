@@ -1,6 +1,6 @@
-module.exports = require('..') (depend) ->
+module.exports = require('..') (depend, {exports}) ->
 
   fs = depend 'fs'
 
-  getFs: -> fs
+  exports.getFs = -> fs
 

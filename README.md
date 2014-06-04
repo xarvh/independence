@@ -13,13 +13,13 @@ When writing the module
 ```coffee
 # monkey.coffee
 
-module.exports = require('independence') __dirname, (depend) ->
+module.exports = require('independence') __dirname, (depend, module) ->
 
   # Implicit require
   async = depend 'async'
 
   # Implicit require with path
-  myDatabase = depend 'common/lib/myDatabase'
+  myDatabase = depend '../common/lib/myDatabase'
 
   # Implicit require with explicit mock target name
   _ = depend '_', 'lodash'
@@ -29,10 +29,10 @@ module.exports = require('independence') __dirname, (depend) ->
 
 
   # The actual module object
-  fling: ->
+  module.exports.fling = ->
     console.log 'fling', moment().format 'YYYY-MM-DD'
 
-  swing: ->
+  module.exports.swing = ->
     console.log 'swing', _.find [1, 2, 3, 5, 7], (n) -> n % 2 is 0
 ```
 
@@ -73,5 +73,6 @@ pureMonkey.swing() # Will fail because `_` is undefined
 TODO
 ----
 
-* Add unit tests against browserify
+* Unit test against browserify
+* Improve relative paths declaration
 
