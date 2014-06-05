@@ -3,36 +3,29 @@ Independence
 
 [![Build Status](https://secure.travis-ci.org/xarvh/independence.png?branch=master)](http://travis-ci.org/xarvh/independence)
 
-Module dependency injection for easy and fast mocking.
+Module dependency injection for easy and ridiculaously *fast* mocking.
 
-Enables a module to create clones of itself that have their dependencies mocked.
+Enables a module to quickly create clones of itself that have their dependencies mocked.
 
 
 When writing the module
 -----------------------
+In CoffeeScript, just add `module.exports = require('independence') require, (require, module, exports) ->` on top and indent everything right.
+
 ```coffee
 # monkey.coffee
 
-module.exports = require('independence') __dirname, (depend, module) ->
+module.exports = require('independence') require, (require, module, exports) ->
 
-  # Implicit require
-  async = depend 'async'
+  moment = require 'moment'
+  _ = depend require 'lodash', mockAs: '_'
+  myService = require '../common/lib/services/myService'
+  myDatabase = require '../common/lib/myDatabase', mockAs: 'database'
 
-  # Implicit require with path
-  myDatabase = depend '../common/lib/myDatabase'
-
-  # Implicit require with explicit mock target name
-  _ = depend '_', 'lodash'
-
-  # Explicit require, suitable for browserify
-  moment = depend 'moment', require 'moment'
-
-
-  # The actual module object
-  module.exports.fling = ->
+  exports.fling = ->
     console.log 'fling', moment().format 'YYYY-MM-DD'
 
-  module.exports.swing = ->
+  exports.swing = ->
     console.log 'swing', _.find [1, 2, 3, 5, 7], (n) -> n % 2 is 0
 ```
 
@@ -70,9 +63,14 @@ pureMonkey.swing() # Will fail because `_` is undefined
 ```
 
 
-TODO
-----
+You can also chain dependency objects:
+```coffee
+commonDependencies =
+  _: require 'lodash'
+  database: log: ->
+  myService: -> 'serviced'
 
-* Unit test against browserify
-* Improve relative paths declaration
+pureMonkey = monkey.dependingOnlyOn commonDependencies,
+  moment: -> format: -> 'Yip!'
+```
 

@@ -1,42 +1,26 @@
 
-path = try require 'path' catch e then join: (args...) -> args.join ''
+module.exports = independence = (localRequire, moduleInjector) ->
 
-dependDefaultFactory = (basePath) ->
-  return dependDefault = (name, dependency) ->
-    dependency ?= name
-    if typeof dependency isnt 'string' then return dependency
-
-    if '/' in dependency then dependency = path.join basePath..., dependency
-    return require dependency
-
-
-dependOnlyOnFactory = (mocks = {}) ->
-  return dependOnlyOn = (name, dependency) ->
-    if !dependency then name = getNameFromDependency dependency = name
-    return mocks[name]
-
-
-dependOnFactory = (mocks = {}, dependDefault) ->
-  return dependOn = (name, dependency) ->
-    if !dependency then name = getNameFromDependency dependency = name
-    return mocks[name] or dependDefault name, dependency
-
-
-module.exports = independence = (basePath..., moduleInjector) ->
-
-  makeModule = (depend) ->
+  makeModule = (injectedRequire) ->
     modu1e = exports: {}
-    moduleInjector depend, modu1e
+    moduleInjector injectedRequire, modu1e, modu1e.exports
     return modu1e.exports
 
-  dependDefault = dependDefaultFactory basePath
-  exportz = makeModule dependDefault
-  exportz.dependingOn = (mocks) -> makeModule dependOnFactory mocks, dependDefault
-  exportz.dependingOnlyOn = (mocks) -> makeModule dependOnlyOnFactory mocks
+  exportz = makeModule localRequire
+  exportz.dependingOn = -> makeModule independence.requireFactory arguments, localRequire
+  exportz.dependingOnlyOn = -> makeModule independence.requireFactory arguments
 
   return exportz
 
 
-module.exports.getNameFromDependency = getNameFromDependency = (dependency) ->
-  return dependency?.split?('/').pop().split('.')[0] or throw new Error 'Invalid module name'
+independence.requireFactory = (mockArguments, localRequire) ->
+
+  mocks = {}
+  for arg in mockArguments
+    for attribute of arg
+      mocks[attribute] = arg[attribute]
+
+  return injectedRequire = (dependency, options) ->
+    name = options?.mockAs or dependency.split('/').pop().split('.')[0]
+    return mocks[name] or localRequire? dependency
 

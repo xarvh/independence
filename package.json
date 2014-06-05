@@ -1,11 +1,10 @@
 {
   "name": "independence",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Dependency injection helper",
   "main": "index.coffee",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register -t 100s",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- -t 10s"
+    "test": "mocha --compilers coffee:coffee-script/register -t 100s"
   },
   "repository": {
     "type": "git",
@@ -25,10 +24,7 @@
   "devDependencies": {
     "should": "~2.0.2",
     "mocha": "~1.13.0",
-    "istanbul": "~0.1.44",
     "coffee-script": ">=1.7.1"
-  },
-  "dependencies": {
   },
   "readmeFilename": "README.md",
   "bugs": {
