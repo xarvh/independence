@@ -2,9 +2,9 @@
 var independence = module.exports = function(localRequire, moduleInjector) {
 
   var makeModule = function(injectedRequire) {
-    var modu1e = {exports: {}}
-    moduleInjector.call(module.exports, injectedRequire, modu1e, modu1e.exports)
-    return modu1e.exports
+    var _module = {exports: {}}
+    moduleInjector.call(_module.exports, injectedRequire, _module, _module.exports)
+    return _module.exports
   }
 
   exportz = makeModule(localRequire)
