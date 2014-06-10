@@ -1,20 +1,20 @@
 
-var independence = module.exports = function(localRequire, moduleInjector) {
+var independence = module.exports = function(_require, moduleInjector) {
 
   var makeModule = function(injectedRequire) {
-    var _module = {exports: {}}
+    var _module = { exports: {} }
     moduleInjector.call(_module.exports, injectedRequire, _module, _module.exports)
     return _module.exports
   }
 
-  exportz = makeModule(localRequire)
-  exportz.dependingOn = function() { return makeModule(independence.requireFactory(arguments, localRequire)) }
-  exportz.dependingOnlyOn = function() { return makeModule(independence.requireFactory(arguments)) }
-  return exportz
+  _exports = makeModule(_require)
+  _exports.dependingOn = function() { return makeModule(independence.requireFactory(arguments, _require)) }
+  _exports.dependingOnlyOn = function() { return makeModule(independence.requireFactory(arguments)) }
+  return _exports
 }
 
 
-independence.requireFactory = function(mockArguments, localRequire) {
+independence.requireFactory = function(mockArguments, _require) {
   var mocks = {}
   for (var index = 0; index < mockArguments.length; index++) {
     var arg = mockArguments[index]
@@ -23,7 +23,7 @@ independence.requireFactory = function(mockArguments, localRequire) {
 
   return injectedRequire = function(dependency, options) {
     var name = (options && options.mockAs) || dependency.split('/').pop().split('.')[0]
-    return mocks[name] || (typeof localRequire === "function" ? localRequire(dependency) : void 0)
+    return mocks[name] || (typeof _require === "function" ? _require(dependency) : void 0)
   }
 }
 
