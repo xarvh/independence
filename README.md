@@ -18,7 +18,7 @@ In CoffeeScript, just add `module.exports = require('independence') require, (re
 module.exports = require('independence') require, (require, module, exports) ->
 
   moment = require 'moment'
-  _ = depend require 'lodash', mockAs: '_'
+  _ = require 'lodash', mockAs: '_'
   myService = require '../common/lib/services/myService'
   myDatabase = require '../common/lib/myDatabase', mockAs: 'database'
 
