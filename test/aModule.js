@@ -1,4 +1,6 @@
-module.exports = require('..')(require, function(require, module, exports) {
+originalModule = module
+
+require('..')(require, module, function(require, module, exports) {
 
   var fs = require('fs')
   this.getFs = function() {return fs}
@@ -8,5 +10,8 @@ module.exports = require('..')(require, function(require, module, exports) {
 
   var adep = require('./aDependency')
   module.exports.getADep = function() {return adep}
+
+  module.exports.module = module
+  module.exports.originalModule = originalModule
 })
 

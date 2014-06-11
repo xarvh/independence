@@ -25,6 +25,10 @@ describe('independence', function() {
       aModule.getADep().should.be.exactly('*aDependency*')
     })
 
+    it('should correctly inject the original module', function() {
+      (aModule.module === aModule.originalModule).should.be.true
+    })
+
   })
 
 
@@ -38,6 +42,11 @@ describe('independence', function() {
 
     it('should provide the original module when not overridden', function() {
       aModule.dependingOn({}).getFs().should.be.exactly(fs)
+    })
+
+    it('should correctly clone the original module', function() {
+      (aModule.module !== aModule.originalModule).should.be.true
+      aModule.module.id.should.match(/aModule.js/)
     })
 
   })
