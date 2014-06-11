@@ -1,4 +1,4 @@
-module.exports = require('..')(require, function(require, module, exports) {
+require('..')(require, module, function(require, module, exports) {
   module.exports = '*aDependency*';
 });
 

@@ -10,12 +10,13 @@ Enables a module to quickly create clones of itself that have their dependencies
 
 When writing the module
 -----------------------
-In CoffeeScript, just add `module.exports = require('independence') require, (require, module, exports) ->` on top and indent everything right.
+Wrap your module in `"require('independence')(require, module, (function(require, module, exports) {" + yourCode + "}))"`.
 
+In CoffeeScript:
 ```coffee
 # monkey.coffee
 
-module.exports = require('independence') require, (require, module, exports) ->
+require('independence') require, module, (require, module, exports) ->
 
   moment = require 'moment'
   _ = require 'lodash', mockAs: '_'

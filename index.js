@@ -1,15 +1,21 @@
 
-var independence = module.exports = function(_require, moduleInjector) {
+var independence = module.exports = function(_require, _module, moduleInjector) {
 
-  var makeModule = function(injectedRequire) {
-    var _module = { exports: {} }
-    moduleInjector.call(_module.exports, injectedRequire, _module, _module.exports)
-    return _module.exports
+  var cloneModule = function() {
+    var clone = {}
+    for (var a in _module) { clone[a] = _module[a] }
+    return clone
   }
 
-  _exports = makeModule(_require)
-  _exports.dependingOn = function() { return makeModule(independence.requireFactory(arguments, _require)) }
-  _exports.dependingOnlyOn = function() { return makeModule(independence.requireFactory(arguments)) }
+  var makeModule = function(injectedModule, injectedRequire) {
+    moduleInjector.call(injectedModule.exports, injectedRequire, injectedModule, injectedModule.exports)
+    return injectedModule.exports
+  }
+
+  _exports = makeModule(_module, _require)
+  _exports.dependingOn = function() { return makeModule(cloneModule(), independence.requireFactory(arguments, _require)) }
+  _exports.dependingOnlyOn = function() { return makeModule(cloneModule(), independence.requireFactory(arguments)) }
+
   return _exports
 }
 
