@@ -4,6 +4,7 @@ var independence = module.exports = function(_require, _module, moduleInjector) 
   var cloneModule = function() {
     var clone = {}
     for (var a in _module) { clone[a] = _module[a] }
+    clone.exports = {}
     return clone
   }
 

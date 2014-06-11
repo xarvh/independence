@@ -45,8 +45,11 @@ describe('independence', function() {
     })
 
     it('should correctly clone the original module', function() {
-      (aModule.module !== aModule.originalModule).should.be.true
-      aModule.module.id.should.match(/aModule.js/)
+      var test = aModule.dependingOn()
+      test.module.id.should.match(/aModule.js$/)
+      ;(test.originalModule === aModule.module).should.be.true
+      ;(test.module !== aModule.module).should.be.true
+      ;(test.module.exports !== aModule.module.exports).should.be.true
     })
 
   })

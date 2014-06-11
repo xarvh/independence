@@ -1,4 +1,4 @@
-originalModule = module
+var originalModule = module
 
 require('..')(require, module, function(require, module, exports) {
 
