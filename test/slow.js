@@ -32,20 +32,20 @@ describe('independence', function() {
   })
 
 
-  describe('dependingOn', function() {
+  describe('override', function() {
 
     it('should provide the overridden module', function() {
-      aModule.dependingOn({
+      aModule.override({
         fs: 'xxx'
       }).getFs().should.be.exactly('xxx')
     })
 
     it('should provide the original module when not overridden', function() {
-      aModule.dependingOn({}).getFs().should.be.exactly(fs)
+      aModule.override({}).getFs().should.be.exactly(fs)
     })
 
     it('should correctly clone the original module', function() {
-      var test = aModule.dependingOn()
+      var test = aModule.override()
       test.module.id.should.match(/aModule.js$/)
       ;(test.originalModule === aModule.module).should.be.true
       ;(test.module !== aModule.module).should.be.true
@@ -55,16 +55,16 @@ describe('independence', function() {
   })
 
 
-  describe('dependingOnlyOn', function() {
+  describe('isolate', function() {
 
     it('should provide the overridden module', function() {
-      aModule.dependingOnlyOn({
+      aModule.isolate({
         fs: 'yyy'
       }).getFs().should.be.exactly('yyy')
     })
 
     it('should provide undefined when a module is not provided', function() {
-      (aModule.dependingOnlyOn({}).getFs() === void 0).should.be.true
+      (aModule.isolate({}).getFs() === void 0).should.be.true
     })
 
     it('should work with multiple objetcs', function() {
@@ -74,18 +74,18 @@ describe('independence', function() {
       var obj2 = {
         fs: 'overriding mock'
       }
-      aModule.dependingOnlyOn(obj1, obj2).getFs().should.be.exactly('overriding mock')
+      aModule.isolate(obj1, obj2).getFs().should.be.exactly('overriding mock')
     })
 
     it('should mock names when provided', function() {
-      aModule.dependingOnlyOn({
+      aModule.isolate({
         path: 'wrong',
         thePath: 'right'
       }).getPath().should.be.exactly('right')
     })
 
     it('should guess a relative dependency name', function() {
-      aModule.dependingOnlyOn({
+      aModule.isolate({
         aDependency: 'mockDependency'
       }).getADep().should.be.exactly('mockDependency')
     })

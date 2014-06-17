@@ -14,8 +14,8 @@ var independence = module.exports = function(_require, _module, moduleInjector) 
   }
 
   _exports = makeModule(_module, _require)
-  _exports.dependingOn = function() { return makeModule(cloneModule(), independence.requireFactory(arguments, _require)) }
-  _exports.dependingOnlyOn = function() { return makeModule(cloneModule(), independence.requireFactory(arguments)) }
+  _exports.override = function() { return makeModule(cloneModule(), independence.requireFactory(arguments, _require)) }
+  _exports.isolate = function() { return makeModule(cloneModule(), independence.requireFactory(arguments)) }
 
   return _exports
 }

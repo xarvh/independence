@@ -48,7 +48,7 @@ When testing the module
 monkey = require './monkey'
 
 # Override moment, but leave all other dependencies nominal:
-testMonkey = monkey.dependingOn
+testMonkey = monkey.override
   moment: -> format: -> 'Yaaap!'
 
 testMonkey.fling() # Will output `fling Yaaap!`
@@ -56,7 +56,7 @@ testMonkey.swing() # Will work as normal
 
 
 # Provide only moment and leave all other dependencies undefined:
-pureMonkey = monkey.dependingOnlyOn
+pureMonkey = monkey.isolate
   moment: -> format: -> 'Yip!'
 
 pureMonkey.fling() # Will output `fling Yip!`
@@ -74,7 +74,7 @@ commonDependencies =
   database: log: ->
   myService: -> 'serviced'
 
-pureMonkey = monkey.dependingOnlyOn commonDependencies,
+pureMonkey = monkey.isolate commonDependencies,
   moment: -> format: -> 'Yip!'
 ```
 
@@ -85,10 +85,10 @@ database = require 'database'
 fruitData = require 'fruitData' # depends on database
 smootie = require 'smootie' # depends on fruitData
 
-databaseTest = database.dependingOn()
+databaseTest = database.override()
 databaseTest.getBananas = (callback) -> callback null, ['banana1', 'banana2']
 
-smootieTest = smootie.dependingOn
-  fruit: fruitData.dependingOn database: databaseTest
+smootieTest = smootie.override
+  fruit: fruitData.override database: databaseTest
 ```
 
