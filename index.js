@@ -29,7 +29,7 @@ independence.requireFactory = function(mockArguments, _require) {
   }
 
   return injectedRequire = function(dependency, options) {
-    var name = (options && options.mockAs) || dependency.split('/').pop().split('.')[0]
+    var name = (options && options.alias) || dependency.split('/').pop().split('.')[0]
     return mocks[name] || (typeof _require === "function" ? _require(dependency) : void 0)
   }
 }

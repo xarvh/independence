@@ -19,9 +19,9 @@ In CoffeeScript:
 require('independence') require, module, (require, module, exports) ->
 
   moment = require 'moment'
-  _ = require 'lodash', mockAs: '_'
+  _ = require 'lodash', alias: '_'
   myService = require '../common/lib/services/myService'
-  myDatabase = require '../common/lib/myDatabase', mockAs: 'database'
+  myDatabase = require '../common/lib/myDatabase', alias: 'database'
 
   exports.fling = ->
     console.log 'fling', moment().format 'YYYY-MM-DD'

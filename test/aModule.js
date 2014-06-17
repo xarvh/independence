@@ -5,7 +5,7 @@ require('..')(require, module, function(require, module, exports) {
   var fs = require('fs')
   this.getFs = function() {return fs}
 
-  var path = require('path', {mockAs: 'thePath'})
+  var path = require('path', {alias: 'thePath'})
   exports.getPath = function() {return path}
 
   var adep = require('./aDependency')
