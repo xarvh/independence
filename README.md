@@ -55,7 +55,7 @@ testMonkey.fling() # Will output `fling Yaaap!`
 testMonkey.swing() # Will work as normal
 
 
-# Provide only moment and leave all other dependenice undefined:
+# Provide only moment and leave all other dependencies undefined:
 pureMonkey = monkey.dependingOnlyOn
   moment: -> format: -> 'Yip!'
 
@@ -64,7 +64,10 @@ pureMonkey.swing() # Will fail because `_` is undefined
 ```
 
 
-You can also chain dependency objects:
+Other stuff you can do
+----------------------
+
+You can chain dependency objects:
 ```coffee
 commonDependencies =
   _: require 'lodash'
@@ -73,5 +76,19 @@ commonDependencies =
 
 pureMonkey = monkey.dependingOnlyOn commonDependencies,
   moment: -> format: -> 'Yip!'
+```
+
+
+You can monkey-patch cleanly and nest <b>in</b>dependencies:
+```coffee
+database = require 'database'
+fruitData = require 'fruitData' # depends on database
+smootie = require 'smootie' # depends on fruitData
+
+databaseTest = database.dependingOn()
+databaseTest.getBananas = (callback) -> callback null, ['banana1', 'banana2']
+
+smootieTest = smootie.dependingOn
+  fruit: fruitData.dependingOn database: databaseTest
 ```
 
